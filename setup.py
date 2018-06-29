@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='ajelastic',
     version='0.1',
-    packages=['ajelastic'],
+    packages=find_packages(),
     url='https://github.com/aasaanjobs/ajelastic-sdk',
     license='MIT',
     author='Sohel Tarir',

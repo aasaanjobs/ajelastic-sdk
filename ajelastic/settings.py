@@ -1,13 +1,30 @@
+import importlib
 import os
-from simple_settings import LazySettings
+import sys
+from contextlib import contextmanager
 
 from ajelastic.exceptions import AJElasticSettingsError
-
 
 _REQUIRED_SETTINGS = [
     "ES_HOST",
     "ES_ENV"
 ]
+
+
+@contextmanager
+def cwd_in_path():
+    cwd = os.getcwd()
+    if cwd in sys.path:
+        yield
+    else:
+        sys.path.insert(0, cwd)
+        try:
+            yield cwd
+        finally:
+            try:
+                sys.path.remove(cwd)
+            except ValueError:  # pragma: no cover
+                pass
 
 
 def load_settings():
@@ -23,7 +40,8 @@ def load_settings():
             setting_path = os.environ["AJ_ELASTIC_CONF"]
         except KeyError:
             raise AJElasticSettingsError("Missing env AJ_ELASTIC_CONF")
-    settings = LazySettings(setting_path)
+    with cwd_in_path():
+        settings = importlib.import_module(setting_path)
     settings_missing = []
     for _ in _REQUIRED_SETTINGS:
         if not hasattr(settings, _):
