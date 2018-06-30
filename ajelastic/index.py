@@ -1,12 +1,9 @@
 import json
-from typing import Dict
 
 from elasticsearch import Elasticsearch
 
 from .definition import ElasticIndex
-from .settings import load_settings
-
-settings = load_settings()
+from .conf import settings
 
 
 class BaseService:
