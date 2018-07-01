@@ -11,6 +11,8 @@ setup(
     description='Python - Elasticsearch Integration (for Aasaanjobs Internal Usage)',
     zip_safe=False,
     entry_points={
-        'console_scripts': ['test-es-command=ajelastic.commands.base:main'],
+        'console_scripts': [
+            'aj-es-reindex=ajelastic.commands.reindex:main'
+        ],
     }
 )

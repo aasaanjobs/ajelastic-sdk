@@ -1,3 +1,6 @@
+"""
+Base Elasticsearch Indexing Command
+"""
 import argparse
 from datetime import datetime
 from time import time
@@ -9,8 +12,8 @@ from ..conf import settings
 
 
 class BaseElasticCommand:
-    name = "base"
-    description = "test"
+    name = ""
+    description = ""
 
     def __init__(self):
         assert self.name, "Missing name declaration."
@@ -77,6 +80,10 @@ class BaseElasticCommand:
         self.es_client.indices.put_mapping(
             index=index,
             doc_type=self.doc_type,
-            body=self.entity.get_mapping()
+            body=self.entity.mapping
         )
         self.log("Added mapping for {} in index {}".format(self.doc_type, index))
+
+    def put_alias(self, index):
+        self.es_client.indices.put_alias(index=index, name=self.index_alias)
+        self.log("Assigned the alias {} to index {}".format(self.index_alias, index))

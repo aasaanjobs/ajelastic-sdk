@@ -1,9 +1,17 @@
-ES_HOST = "http://35.200.188.153:9200"
-ES_ENV = "staging_api3"
+"""
+Test Settings File
+"""
+
+ES_HOST = "http://localhost:9200"
+ES_ENV = "development"
 ES_INDICES = {
-    "Job": {
-        "name": "jobs",
-        "doc_type": "job",
-        "data_functions": {}
+    "User": {
+        "name": "users",
+        "doc_type": "user",
+        "data_functions": {
+            "single": "tests.data:get_user",
+            "multi": "tests.data:list_users"
+        },
+        "mapping_path": "tests/user_mapping.json"
     }
 }
